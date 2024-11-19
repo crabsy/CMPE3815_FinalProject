@@ -1,9 +1,11 @@
 /*
 MICROCONTROLLERS LAB X - FINAL PROJECT
-Vanessa, Andrew, and RJ
-Using flex sensors to measure hand movement and motors to move fingers to 
+using flex sensors to measure hand movement and motors to move fingers to 
 replicate the hand's movement.
 */
+
+#include <Servo.h>
+Servo myServo;
 
 const int flexPIN = A0; // output from flex sensor voltage divider
 
@@ -16,6 +18,9 @@ const float bentResist = 51000.0; // resistance at 90 deg
 void setup() {
   Serial.begin(9600);
   pinMode(flexPIN, INPUT);
+  myServo.attach(4);
+  myServo.write(0);
+
 }
 
 void loop() {
@@ -31,5 +36,8 @@ void loop() {
   Serial.println("Bend: " + String(angle) + " degrees");
   Serial.println();
 
-  delay(2000);
+  delay(150);
+  float mappedAngle = (angle * -1);
+  Serial.println(mappedAngle);
+  myServo.write(mappedAngle);
 }
